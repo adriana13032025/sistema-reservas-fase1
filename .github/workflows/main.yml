@@ -1,0 +1,40 @@
+# Nombre del Workflow
+name: Build and Test CI - ReservaMesa
+
+# Evento: Se dispara automáticamente en cada 'push' a la rama principal (main)
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_test:
+    # El sistema operativo donde correrá la prueba (Linux)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      # Acción de GitHub para descargar el código
+      uses: actions/checkout@v4
+      
+    - name: Set up Node.js
+      # Configura el ambiente de Node.js v20
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install Dependencies
+      # Ejecuta la instalación de paquetes
+      run: npm install
+      
+    # ESTE PASO USA EL COMANDO QUE ACABO DE ARREGLAR (CI)
+    - name: Run Unit Tests
+      # Ejecuta la prueba de unidad que ya configure con PASS
+      run: npm test 
+      
+    - name: Build Project
+      # Compila el código para producción
+      run: npm run build
+      
+    - name: CI Completed Successfully
+      run: echo "CI (Integración Continua) finalizada con éxito. Artifacto de construcción listo para despliegue."
